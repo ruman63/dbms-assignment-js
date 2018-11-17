@@ -1,4 +1,8 @@
 {
+  "name": "dbms",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "combinations": "^0.1.1",
     "readline-sync": "^1.4.9"
