@@ -1,54 +1,56 @@
 class FunctionalDependencySet {
 
     constructor(array = []){
-        this.__items__ = new Set(array.map(item => item.split('->')))
+        this.$items = new Set(array.map(item => {
+            const [lhs, rhs] = item.split('->');
+            return {lhs, rhs};
+        }));
     }
 
-    *[Symbol.iterator](){
-        return () => {
-            let items = this.__items__
-            return {
-                next:() => items.pop(),
-                done: items.length,
-            }
-        }
+    [Symbol.iterator](){
+        return this.$items.values();
     } 
 
     add(lhs, rhs) {
-        this.__items__.add([lhs,rhs])
+        this.$items.add({lhs,rhs});
     }
 
-    remove(lhs, rhs) {
-        this.__items__.remove([lhs, rhs])
+    remove(itemLhs, itemRhs) {
+        let item = Array.from(this.$items).find(({lhs, rhs}) => lhs == itemLhs && rhs == itemRhs);
+        return this.$items.delete(item);
     }
 
     leftSideSet() {
-        return Array.from(this.__items__).map(([lhs,rhs]) => lhs)
+        return Array.from(this.$items).map(({lhs}) => lhs);
     }
 
     rightSideSet() {
-        return Array.from(this.__items__).map(([lhs, rhs]) => rhs)
+        return Array.from(this.$items).map(({rhs}) => rhs);
+    }
+
+    replaceItems(newItems) {
+        this.$items = new Set(newItems);
     }
 
     closureSet(attributes) {
-        let closure = new Set(attributes)
+        let closure = new Set(attributes);
 
-        this.__items__.forEach(
-            () => this.__items__.forEach(([lhs, rhs]) => {
+        this.$items.forEach(
+            () => this.$items.forEach(({lhs, rhs}) => {
                 if ( lhs.split('').every(item => closure.has(item)) ) {
-                    rhs.split('').forEach(attr => closure.add(attr))
+                    rhs.split('').forEach(attr => closure.add(attr));
                 }
             })
-        )
+        );
 
-        return closure
+        return closure;
     }
 
     toString(){
         return "FD = {\n\t" + 
-            Array.from(this.__items__).map(item => item.join('->')).join(",\n\t") + 
-        "\n}"
+            Array.from(this.$items).map(({lhs,rhs}) => [lhs, rhs].join('->')).join(",\n\t") + 
+        "\n}";
     }
 }
 
-module.exports = FunctionalDependencySet
+module.exports = FunctionalDependencySet;
