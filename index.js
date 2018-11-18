@@ -1,7 +1,7 @@
-require('./assets/set_functions'); // Set prototype functions
-const dbms = require('./assets/dbms'); // dbms Functions modules
-const FunctionalDependencySet = require('./assets/FunctionalDependencySet'); //FunctionalDependencySet class
-const Relation = require('./assets/Relation'); //Realtion Class
+require('./src/set_functions'); // Set prototype functions
+const dbms = require('./src/dbms'); // dbms Functions modules
+const FunctionalDependencySet = require('./src/FunctionalDependencySet'); //FunctionalDependencySet class
+const Relation = require('./src/Relation'); //Realtion Class
 const Prompt = require('readline-sync'); // for easy prompts
 
 // prompt User for Relation Atributes

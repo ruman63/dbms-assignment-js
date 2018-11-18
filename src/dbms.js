@@ -1,8 +1,8 @@
 require('./set_functions');
 
-const cover =  (fd1, fd2) => fd1.leftSideSet().every(item => fd1.closureSet(item).issubset(fd2.closureSet(item)));
+const subset =  (fd1, fd2) => fd1.leftSideSet().every(item => fd1.closureSet(item).issubset(fd2.closureSet(item)));
 
-const equivalence =  (fd1,fd2) => cover(fd1,fd2) && cover(fd2,fd1);
+const equivalent =  (fd1,fd2) => subset(fd1,fd2) && subset(fd2,fd1);
 
 function minimalCover(fdSet) {
     // Split the dependencies
@@ -82,8 +82,8 @@ function isBCNF(relation) {
 
 
 module.exports = {
-    cover,
-    equivalence,
+    susbet,
+    equivalent,
     minimalCover,
     isPartialDependency,
     hasPartialDependency,
